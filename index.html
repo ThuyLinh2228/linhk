@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Trái tim và tình yêu bay lấp lánh</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: black;
+      font-family: Arial, sans-serif;
+    }
+
+    .heart {
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      animation: fallDown 5s linear forwards, sparkle 1.5s ease-in-out infinite;
+      opacity: 0.9;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .love-text {
+      position: absolute;
+      font-size: 18px;
+      color: white;
+      animation: fallDown 7s linear forwards, sparkle 2s ease-in-out infinite;
+      opacity: 0.95;
+      white-space: nowrap;
+      pointer-events: none;
+      font-weight: bold;
+      transition: transform 1s ease-out, opacity 1s;
+      z-index: 10;
+    }
+
+    @keyframes fallDown {
+      0% {
+        transform: translateY(-10vh);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(120vh);
+        opacity: 0;
+      }
+    }
+
+    @keyframes sparkle {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(2.3); }
+    }
+
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 3s infinite;
+      z-index: 1;
+    }
+
+    .planet {
+      position: absolute;
+      background: #87CEEB;
+      border-radius: 50%;
+      opacity: 0.8;
+      z-index: 1;
+    }
+
+    .mountain {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 100px;
+      background: #333;
+      z-index: 2;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0.3; }
+      50% { opacity: 1; }
+      100% { opacity: 0.3; }
+    }
+  </style>
+</head>
+<body>
+
+<script>
+  const colors = ["white"]; // chữ trắng
+  const heartColors = ["#ff4d6d", "#ff85a1", "#ff2e63", "#ff6b81", "#ff96a5", "#ff4c8b"];
+  const texts = ["Hãy luôn mỉm cười vì nụ cười của bạn là đẹp nhất🥰", "Mỗi lần bạn cười bầu trời sẽ vì thế mà trong xanh thêm", "Cười nhiều lên nhé vì nụ cười của bạn rất xinh💖", "Hãy cứ là chính bản thân mình vui vẻ là được🌻", "Bình yên nhé, hạnh phúc là được🤍", "Chỉ cần hạnh phúc, mọi chuyện khác đều không sao"];
+
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.top = "-20px";
+    heart.style.animationDuration = (3 + Math.random() * 2) + "s, 1.5s";
+
+    heart.innerHTML = `
+      <svg viewBox="0 0 32 29.6" width="100%" height="100%">
+        <path fill="${heartColors[Math.floor(Math.random() * heartColors.length)]}"
+              d="M23.6,0c-3.4,0-6.4,2.1-7.6,5.1C14.8,2.1,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4
+                 c0,9.2,16,21.2,16,21.2s16-12,16-21.2C32,3.8,28.2,0,23.6,0z"/>
+      </svg>
+    `;
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+  }
+
+  function createText() {
+    const text = document.createElement("div");
+    text.className = "love-text";
+    text.innerText = texts[Math.floor(Math.random() * texts.length)];
+    text.style.left = Math.random() * 100 + "vw";
+    text.style.top = "-20px";
+    text.style.fontSize = (16 + Math.random() * 6) + "px";
+    text.style.color = "white";
+    text.style.animationDuration = (6 + Math.random() * 3) + "s, 2s";
+    document.body.appendChild(text);
+    setTimeout(() => text.remove(), 9000);
+  }
+
+  function createExplosion(x, y) {
+    const phrases = ["Love you"];
+    for (let i = 0; i < 10; i++) {
+      const text = document.createElement("div");
+      text.className = "love-text";
+      text.innerText = phrases[Math.floor(Math.random() * phrases.length)];
+      text.style.left = x + "px";
+      text.style.top = y + "px";
+      text.style.fontSize = (14 + Math.random() * 6) + "px";
+      text.style.color = "white";
+      text.style.transition = "transform 1s ease-out, opacity 1s";
+      document.body.appendChild(text);
+
+      const angle = Math.random() * 2 * Math.PI;
+      const radius = 80 + Math.random() * 40;
+      const dx = Math.cos(angle) * radius;
+      const dy = Math.sin(angle) * radius;
+
+      requestAnimationFrame(() => {
+        text.style.transform = `translate(${dx}px, ${dy}px) scale(1.2)`;
+        text.style.opacity = "0";
+      });
+
+      setTimeout(() => text.remove(), 1200);
+    }
+  }
+
+  document.addEventListener("click", (e) => {
+    createExplosion(e.clientX, e.clientY);
+  });
+
+  // Sao lấp lánh
+  for (let i = 0; i < 300; i++) {
+    let star = document.createElement('div');
+    star.className = 'star';
+    star.style.left = Math.random() * 100 + 'vw';
+    star.style.top = Math.random() * 80 + 'vh';
+    const size = Math.random() * 3 + 1;
+    star.style.width = size + 'px';
+    star.style.height = size + 'px';
+    document.body.appendChild(star);
+  }
+
+  // Hành tinh
+  for (let i = 0; i < 5; i++) {
+    let planet = document.createElement('div');
+    planet.className = 'planet';
+    planet.style.left = Math.random() * 100 + 'vw';
+    planet.style.top = Math.random() * 80 + 'vh';
+    const size = Math.random() * 10 + 5;
+    planet.style.width = size + 'px';
+    planet.style.height = size + 'px';
+    document.body.appendChild(planet);
+  }
+
+  // Núi
+  let mountain = document.createElement('div');
+  mountain.className = 'mountain';
+  document.body.appendChild(mountain);
+
+  // Hiệu ứng liên tục
+  setInterval(createHeart, 100);     // nhiều hơn
+  setInterval(createText, 400);      // nhiều chữ hơn
+</script>
+
+</body>
+</html>
